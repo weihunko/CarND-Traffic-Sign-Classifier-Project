@@ -58,7 +58,7 @@ Here is an exploratory visualization of the data set. It is a bar chart showing 
 
 As a first step, I decided to add more data to the dataset, because the number of images of different classes in the original dataset are imbalanced. 
 
-To add more data to the the data set, I used the following techniques including:
+To add more data to the the data set, I tested the following techniques:
 - image shifting
 - image rotation
 - gaussian noise
@@ -67,9 +67,9 @@ Here is an example of using those technique to generate augmented images:
 
 ![alt text][image3]
 
-In the end, I used a mix of those techniques to generate artificial image data, and targeting those class that has less training images
+After testing, I decided to use image rotation to generate artificial image data, and targeting those classes that has less training images. 
 
-I also decided to convert the images to grayscale because in the [paper](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf) it mentions grayscaling helps to increase the accuracy of model.
+I also decided to convert the images to grayscale because it since to reduce overfitting and also in the [paper](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf) it mentions grayscaling helps to increase the accuracy of model.
 
 Here is an example of a traffic sign image before and after grayscaling.
 
@@ -116,18 +116,17 @@ To train the model, I used the Adam optimizer and the following hyperparameters:
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+* training set accuracy of 0.992
+* validation set accuracy of 0.949
+* test set accuracy of 
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-  * I chose to use Yann LeCun's LeNet architecture since it has been proven to be useful for object classification application.  
-* What were some problems with the initial architecture?
-  * The model tends to overfit the training set as I noticed that the validation set accuracy is around 0.89 to 0.91 while the training set accuracy is already 0.99.
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting. 
-  * First, I added more augmented data to the training dataset. The validation accuracy increased a little and can now sometimes reach 0.93 validation accuracy. However, not until I added dropout to the model that the validation set accuracy has significantly improved. With the current model architecture and augmented data, the validation set accuarcy is stably around 0.95.
-* Which parameters were tuned? How were they adjusted and why? I tuned the size of fully connected layer because the number of classes is different from than the LeNet model.
+The iterative approach I used was as follow:
+
+* I chose to use Yann LeCun's LeNet architecture since it has been proven to be useful for image classification.  
+* The original model tended to overfit the training set as I noticed that the validation set accuracy was around 0.89 to 0.91 while the training set accuracy was already 0.99.
+* To increase accuracy, I added more augmented data to the training dataset. The validation accuracy increased a little and can now sometimes reach 0.93 validation accuracy. 
+* To reduce overfitting, I added dropout to the model, and after that the validation set accuracy has significantly improved. With the current model architecture and augmented data, the validation set accuarcy is stably around 0.95.
+* I also tuned the size of fully connected layer a little, because the number of classes is different from the original LeNet model.
  
 
 ### Test a Model on New Images
@@ -137,9 +136,7 @@ If an iterative approach was chosen:
 Here are five German traffic signs that I found on the web:
 
 ![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
-
-The first image might be difficult to classify because ...
+![alt text][image7] ![alt text][image8] ![alt text][image9]
 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
@@ -147,31 +144,51 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Right of way at the next section    		| Right of way at the next section      | 
+| No vehicles     			                | No vehicles   						|
+| 70 km/h				                   	| 50 km/h								|
+| Yield	      		                        | Yield					 				|
+| Wild animal crossing			            | Wild animal crossing					|
+| Go straight or right                      | Go straight or right                  |
 
-
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 5 of the 6 traffic signs, which gives an accuracy of 83%. Although the test accuracy is 0.945, the model still fails to recognize "70 km/h" sign.
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+The code for making predictions on my final model is located in the 21th cell of the Ipython notebook.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+For the first image, the model is very sure that this is a "Right of Way" sign (probability of 0.999), and the image does contain a "Right of Way". The top five soft max probabilities were
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| .9997             	| Right of way 									|
+| .00029                | Beware of ice/snow                            |
+| .0000007     			| Pedestrians									| 
+| .0000003              | Double curve                                  |   
+| .0000001				| Children crossing								|
 
+The second image also had simliar result. Model has no trouble to classify it correctly.
 
-For the second image ... 
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .9947             	| 15 No vehicles								|
+| .0037                 | 12 Priority road                              |
+| .0009     			| 13 Yield						    			| 
+| .0005                 | 9  No passing                                 |   
+| .00007				| 2	Speed limit (30km/h)						|
+
+The third image is the one that model has trouble to classify, as we can see from the softmax that the probability are all pretty low. This may be because of the low resolution of picture from bad down sampling.
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .2352             	| Speed limit (50km/h)			    			|
+| .2015                 | Speed limit (30km/h)                          |
+| .1344     			| Roundabout mandatory			    			| 
+| .0877                 | Speed limit (20km/h)                          |   
+| .0595				    | Speed limit (70km/h)				    		|
+
+The model performed well on the rest of three images. The top 1 probabilities are all above 96%.
+
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
 #### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
