@@ -58,7 +58,7 @@ Here is an exploratory visualization of the data set. It is a bar chart showing 
 
 As a first step, I decided to add more data to the dataset, because the number of images of different classes in the original dataset are imbalanced. 
 
-To add more data to the the data set, I tested the following techniques:
+To generate augmented data, I tested the following techniques:
 - image shifting
 - image rotation
 - gaussian noise
@@ -69,14 +69,13 @@ Here is an example of using those technique to generate augmented images:
 
 After testing, I decided to use image rotation to generate artificial image data, and targeting those classes that has less training images. 
 
-I also decided to convert the images to grayscale because it since to reduce overfitting and also in the [paper](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf) it mentions grayscaling helps to increase the accuracy of model.
+I also decided to convert the images to grayscale because it seems to reduce overfitting and in the [paper](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf) it mentions grayscaling helps to increase the accuracy of model.
 
 Here is an example of a traffic sign image before and after grayscaling.
 
 ![alt text][image2]
 
 As a last step, I normalized the image data for the optimizer to perform better gradient descent based optimization.  
-
 
 #### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
@@ -151,7 +150,7 @@ Here are the results of the prediction:
 | Wild animal crossing			            | Wild animal crossing					|
 | Go straight or right                      | Go straight or right                  |
 
-The model was able to correctly guess 5 of the 6 traffic signs, which gives an accuracy of 83%. Although the test accuracy is 0.945, the model still fails to recognize "70 km/h" sign.
+The model is able to correctly guess 5 of the 6 traffic signs, which gives an accuracy of 83%. Although the test accuracy is 0.945, the model still fails to recognize "70 km/h" sign.
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
